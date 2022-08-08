@@ -11,6 +11,11 @@
                                 DataTable
                             </div>
                             <div class="card-body">
+                                 @if(session()->has('msg'))
+                                    <div class="alert alert-danger" role="alert">
+                                        {{session()->get('msg')}}
+                                    </div>
+                                 @endif
                                 <table id="datatablesSimple">
                                     <thead>
                                             <th>Title</th>
@@ -24,7 +29,7 @@
                                             <td>{{$c->link}}</td>
                                             <td>
                                                 <a href="{{URL::to('categories/edit/'.$c->id)}}" class="btn btn-info btn-sm">Edit</a> |
-                                                <a href="" class="btn btn-danger btn-sm">Delete</a>
+                                                <a href="{{URL::to('categories/delete/'.$c->id)}}" class="btn btn-danger btn-sm">Delete</a>
                                             </td>
                                         </tr>
                                         @endforeach

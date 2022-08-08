@@ -30,4 +30,6 @@ Route::get('categories/create-categories', [CategoryController::class , 'create'
 Route::get('categories/', [CategoryController::class , 'index']);
 Route::post('store-categories', [CategoryController::class , 'store']);
 Route::get('categories/edit/{id}', [CategoryController::class , 'edit']);
+Route::get('categories/delete/{id}', [CategoryController::class , 'delete']);
 Route::post('update-categories/{id}', [CategoryController::class , 'update']);
+Route::post('/categories/{id}', [CategoryController::class , 'show'])->name('categories.show');

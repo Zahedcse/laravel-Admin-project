@@ -17,11 +17,17 @@
                         <h3>Add Category</h3>
                     </div>
                     <div class="card-body">
+                        
                         <form action="{{URL::to('store-categories')}}" method="post">
                     {{ csrf_field() }}
                     <div class="form-group">
                         <label for="" class="control-label">Title</label>
                         <input type="text" name="title" class="form-control" placeholder=""id="Title">
+                        @error('title')
+                        <div class="alert alert-danger">
+                            Add some text bruh!!
+                        </div>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="Link" class="control-label">Link</label>

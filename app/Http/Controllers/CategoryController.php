@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use GuzzleHttp\Promise\Create;
 use App\Models\Category;
+// use GuzzleHttp\Promise\Create;
+// use \Illuminate\Contracts\Session\Session;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -19,11 +20,15 @@ class CategoryController extends Controller
     }
     public function store(Request $request)
     {
+        $request->validate([
+            'title'=> ['required', 'min:3', 'max:30'],
+         ]);
         Category::create([
             "title"=>$request->title,
             "link"=>$request->link,
         ]);
-        return redirect()->to('categories');
+        //    return redirect()->to('categories');
+        return redirect()->to('categories')->with('msg', 'Task Added Successfully');
     }
     public function edit($id)
     {
@@ -37,10 +42,18 @@ class CategoryController extends Controller
         $category->link = $request->link;
 
         if ($category->save()) {
-            return redirect()->to('categories');
+            return redirect()->to('categories')->with('msg', 'Updated Successfully');
+            ;
         }
     }
-    public function delete($id){
+    public function delete($id)
+    {
+        $category = Category::find($id);
+        if ($category->delete()) {
+            return redirect()->to('categories')->with('msg', 'Deleted Successfully');
+        }
+    }
+    public function show($id){
         
     }
 }
