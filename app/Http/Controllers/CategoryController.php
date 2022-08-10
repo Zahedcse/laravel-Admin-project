@@ -22,38 +22,48 @@ class CategoryController extends Controller
     {
         $request->validate([
             'title'=> ['required', 'min:3', 'max:30'],
+            // 'link'=> ['required', 'min:3', 'max:30'],
          ]);
         Category::create([
             "title"=>$request->title,
             "link"=>$request->link,
         ]);
         //    return redirect()->to('categories');
-        return redirect()->to('categories')->with('msg', 'Task Added Successfully');
+        return redirect()->to('category')->with('msg', 'Task Added Successfully');
     }
-    public function edit($id)
+    public function edit(Category $category)
     {
-        $categories = Category::find($id);
-        return view('backend.categories.edit', ['category' => $categories]);
+        // $categories = Category::find($id);
+        return view('backend.categories.edit', [
+            'category' => $category
+        ]);
     }
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
-        $category = Category::find($id);
-        $category->title = $request->title;
-        $category->link = $request->link;
+        // $category = Category::find($id);
+        // $category->title = $request->title;
+        // $category->link = $request->link;
 
-        if ($category->save()) {
-            return redirect()->to('categories')->with('msg', 'Updated Successfully');
-            ;
-        }
+        // if ($category->save()) {
+        //     return redirect()->to('categories')->with('msg', 'Updated Successfully');
+        //     ;
+        // }
+        $category->fill($request->post())->save();
+        return redirect()->route('category.index')->with('msg', 'Updated Successfully');
     }
-    public function delete($id)
+
+    public function show(Category $category)
     {
-        $category = Category::find($id);
-        if ($category->delete()) {
-            return redirect()->to('categories')->with('msg', 'Deleted Successfully');
-        }
+        // $category = Category::findOrFail($id);
+        return view('backend.categories.show', ['category' => $category]);
     }
-    public function show($id){
-        
+
+    public function destroy(Category $category)
+    {
+        // $category = Category::find($id);
+        $category->delete();
+        session()->flash('msg', 'Category deleted successfully');
+        return redirect()->route('category.index');
+        // return redirect()->route('category.index')->with('msg', 'Deleted Successfully');
     }
 }
